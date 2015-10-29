@@ -29,14 +29,22 @@ exports.initialize = function(pathsObj){
 
 exports.readListOfUrls = function(callback){
   // read file (file, callback)
-  fs.readFile(exports.path.list, function(error) {
-    if ( error ) {
-      console.log("Error!");
-    } else {
-      var listArray = exports.path.list.split('\n')
-      // if no errors, run the callback func
-      callback(listArray)
+  fs.readFile(exports.path.list, function(error, sites) {
+
+    sites = sites.toString().split('\n')
+    if(callback){
+      callback(sites)
     }
+
+
+    // if ( error ) {
+    //   console.log("Error!");
+    // } else {
+    //   var listArray = exports.path.list.split('\n')
+    //   // if no errors, run the callback func
+    //   callback(listArray)
+    // }
+    
   })
 };
 
