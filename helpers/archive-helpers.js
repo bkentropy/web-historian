@@ -44,17 +44,28 @@ exports.readListOfUrls = function(callback){
     //   // if no errors, run the callback func
     //   callback(listArray)
     // }
-    
+
   })
 };
 
 
-exports.isUrlInList = function(siteQuery){
-  var list = exports.readListOfUrls(function() {
-    var result = _.contains(list, siteQuery);
-  });
-  return result;
+exports.isUrlInList = function(url, callback){
+  exports.readListOfUrls(function(sites){
+    //what is i?
+    var found = _.any(sites, function(site, i){
+      //what is match?
+      return site.match(url)
+    })
+
+    callback(found)
+  })
+
 };
+  // var list = exports.readListOfUrls(function() {
+  //   var result = _.contains(list, siteQuery);
+  // });
+  // return result;
+
 /*if(isUrlinList){ 
   //display page
 } else{
