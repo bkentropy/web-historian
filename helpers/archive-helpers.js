@@ -29,7 +29,7 @@ exports.initialize = function(pathsObj){
 
 exports.readListOfUrls = function(callback){
   // read file (file, callback)
-  fs.readFile(exports.path.list, function(error, sites) {
+  fs.readFile(exports.paths.list, function(error, sites) {
 
     sites = sites.toString().split('\n')
     if(callback){
@@ -75,11 +75,11 @@ exports.isUrlInList = function(url, callback){
   
 }
 */
-exports.addUrlToList = function(siteQuery){
+exports.addUrlToList = function(siteQuery, callback){
   // maybe a callback to show a success
-  fs.write(exports.paths.list, siteQuery)
+  fs.appendFile(exports.paths.list, siteQuery)
 
-  exports.downloadUrls();
+  // exports.downloadUrls();
 
 };
 
@@ -90,27 +90,33 @@ exports.downloadUrls = function(siteQuery){
   url: siteQuery,
   progress: function (current, total) {
     console.log('downloaded %d bytes from %d', current, total);
-  }//what is get.bin? Part of their internal API?
-}, 'get.bin', function (err, res) {
+    }//what is get.bin? Part of their internal API?
+  }, 'get.bin', function (err, res) {
   if (err) {
     console.error(err);
     return;
   }
   
   console.log(res.code, res.headers, res.file);
-//exports.paths.archivedSites
-//path.join? does it automatically add a url?
-//
-//adds a file to the site directory
-//
-});
+  //exports.paths.archivedSites
+  //path.join? does it automatically add a url?
+  //
+  //adds a file to the site directory
+  //
+  });
 
 
 
 };
 
 
-exports.isUrlArchived = function(){
+exports.isUrlArchived = function(urlPath, callback){
+  fs.exists(urlPath, function(exists){
+    if(exists){
+    } else {
+    }
+    callback(exists);
+  })
 };
 
 

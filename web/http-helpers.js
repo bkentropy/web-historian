@@ -18,7 +18,6 @@ exports.sendResponse = function(res, obj, status) {
 
 
 exports.serveAssets = function(res, asset, callback) {
-  console.log("insdie of serveAssets")
   // Write some code here that helps serve up your static files!
   // (Static files are things like html (yours or archived from others...),
   // css, or anything that doesn't change often.)
@@ -34,8 +33,10 @@ exports.serveAssets = function(res, asset, callback) {
   var encoding = {encoding: 'utf8'};
 
   fs.readFile(archive.paths.siteAssets + asset, encoding, function(err, data) {
+    // if not in siteAssets
     if ( err ) {
       fs.readFile(archive.paths.archivedSites + asset, encoding, function(err, data) {
+        // if not in archivedSites
         if ( err ) {
           if ( callback ) {
             callback();
@@ -65,3 +66,13 @@ exports.collectData = function(request, callback){
     callback(data);
   });
 }
+
+
+// HEY US, add a sendToLoadingPage
+exports.sendToLoading = function(res){
+  res.writeHead(302, {"Location": "/loading.html"});
+  res.end()
+}
+
+
+
