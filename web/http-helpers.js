@@ -70,7 +70,7 @@ exports.collectData = function(request, callback){
 
 // HEY US, add a sendToLoadingPage
 exports.sendToLoading = function(res){
-  res.writeHead(302, {"Location": "/loading.html"});
+  res.writeHead(302, {"Location": "../public/loading.html"});
   res.end()
 }
 

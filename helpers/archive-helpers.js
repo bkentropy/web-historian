@@ -84,27 +84,29 @@ exports.addUrlToList = function(siteQuery, callback){
 };
 
 // AND to archive
-exports.downloadUrls = function(siteQuery){
-
-  http.get({
-  url: siteQuery,
-  progress: function (current, total) {
-    console.log('downloaded %d bytes from %d', current, total);
-    }//what is get.bin? Part of their internal API?
-  }, 'get.bin', function (err, res) {
-  if (err) {
-    console.error(err);
-    return;
+exports.downloadUrls = function(urlArray){
+  for ( var i = 0; i < urlArray.length; i++ ) {
+    console.log("outside  " + urlArray[i])
+    http.get({
+      url: function(urlArray){urlArray[i]}
+    },
+      function(url) {
+        url = urlArray[i];
+       console.log("inside " + urlArray[i])
+        var body = "";
+        url.on("data", function(chunk){
+          body += chunk;
+        });
+        url.on("end", function(){
+          fs.writeFile(paths.archivedSites + urlArray[i], body, function(err){
+            if ( err ) {
+              console.log("ERROR in downloadUrls")
+            } 
+          });
+        });
+      }
+    )
   }
-  
-  console.log(res.code, res.headers, res.file);
-  //exports.paths.archivedSites
-  //path.join? does it automatically add a url?
-  //
-  //adds a file to the site directory
-  //
-  });
-
 
 
 };
@@ -112,9 +114,6 @@ exports.downloadUrls = function(siteQuery){
 
 exports.isUrlArchived = function(urlPath, callback){
   fs.exists(urlPath, function(exists){
-    if(exists){
-    } else {
-    }
     callback(exists);
   })
 };
